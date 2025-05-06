@@ -2,13 +2,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
     list-style-type: none;
     text-decoration: none;
-    overflow-x: scroll;
-    -ms-overflow-style: none;
-    overflow: -moz-scrollbars-none;
-    scrollbar-width: none;
 }
 ::-webkit-scrollbar {
   display: none;
@@ -44,6 +39,8 @@ body {
 .nav-buttons {
     display: flex;
     gap: 1rem;
+    font-family: "Poppins", sans-serif;
+
 }
 
 .nav-buttons button {
