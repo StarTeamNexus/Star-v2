@@ -2,14 +2,31 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    list-style-type: none;
+    text-decoration: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    font-family: "Poppins", sans-serif;
+}
+:root {
+    --bg-accent2: #333;
+    --text-color1: #fff;
+    --btn-accent: #444;
+    --btn-accent2: #555;
+    --btn-rounding: 8px;
+    --btn-box-shadow: rgba(0, 0, 0, 0.2);
+    --nav-box-hover: #666;
+    --text-shadow: rgba(0, 0, 0, 0.3);
 }
 
 body {
     font-family: Arial, sans-serif;
 }
+
 ::-webkit-scrollbar {
     display: none;
 }
+
 .navbar {
     width: 100%;
     height: 60px;
@@ -54,12 +71,13 @@ body {
     border-radius: var(--btn-rounding);
     border: 1px solid var(--btn-accent);
     background: none;
+    background-color: var(--btn-accent);
     border: none;
-    color: white;
-    padding: 0.5rem 1rem;
+    color: var(--text-color1);
+    padding: 0.75rem 1rem;
     cursor: pointer;
     font-size: 1rem;
-    transition: all 0.3s ease;
+    transition: all 0.75s ease;
 }
 
 .nav-buttons button:hover {
