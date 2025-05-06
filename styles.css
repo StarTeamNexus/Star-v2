@@ -55,7 +55,7 @@ body {
 
 .logo img {
     height: auto;
-    width: 130px;
+    width: 100px;
     padding: 0.5em;
     transition: 0.75s;
 }
@@ -112,7 +112,7 @@ body {
 }
 
 .star-text {
-    font-size: 5rem;
+    font-size: 5rem 5em;
     color: #333;
     text-shadow: 0 10px 5px var(--text-shadow);
     font-family: Calibri, "Trebuchet MS", sans-serif;
