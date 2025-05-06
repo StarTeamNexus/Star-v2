@@ -1,87 +1,71 @@
-/* Base Styles */
 * {
-    padding: 0;
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
     font-family: "Poppins", sans-serif;
     list-style-type: none;
     text-decoration: none;
+    overflow-x: scroll;
     -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
     scrollbar-width: none;
 }
-
-:root {
-    --bg-accent2: #333;
-    --text-color1: #fff;
-    --btn-accent: #444;
-    --btn-accent2: #555;
-    --btn-rounding: 8px;
-    --btn-box-shadow: rgba(0, 0, 0, 0.2);
-    --nav-box-hover: #666;
-    --text-shadow: rgba(0, 0, 0, 0.3);
-}
-
 ::-webkit-scrollbar {
-    display: none;
+  display: none;
+}
+body {
+    font-family: Arial, sans-serif;
 }
 
-a:hover {
-    cursor: pointer;
-}
-
-/* Navbar Styles */
 .navbar {
+    background-color: #333;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     width: 100%;
     height: 60px;
     background: var(--bg-accent2);
     display: flex;
     border-radius: 0 0 25px 25px;
-    box-shadow: 0 2px 5px var(--btn-box-shadow);
 }
 
 .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    width: 100%;
-    padding: 0 1.25em;
 }
 
 .logo img {
-    height: 36px;
-    padding: 0.5em;
-    transition: 0.75s;
-}
-
-.logo:hover img {
-    animation: shake 5s;
+    height: 40px;
+    width: auto;
 }
 
 .nav-buttons {
     display: flex;
-    gap: 15px;
-    margin-left: 2em;
+    gap: 1rem;
 }
 
 .nav-buttons button {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    color: var(--text-color1);
-    background-color: var(--btn-accent);
-    border-radius: var(--btn-rounding);
-    border: 1px solid var(--btn-accent);
-    padding: 0.75em;
-    transition: 0.75s;
+    background: none;
+    border: none;
+    color: white;
+    padding: 0.5rem 1rem;
     cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
 }
 
 .nav-buttons button:hover {
-    border: 1px solid var(--nav-box-hover);
-    transform: scale(1.05);
+    background-color: #555;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.75s;
+    scale: 1.1;
 }
 
-/* Content Styles */
 .content {
-    height: calc(100vh - 60px);
+    height: calc(100vh - 72px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -91,13 +75,12 @@ a:hover {
     display: flex;
     align-items: center;
     gap: 1rem;
-    animation: zoom-in-fade 1s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .star-text {
-    font-size: 5em;
-    color: var(--text-color1);
-    text-shadow: 0 10px 5px var(--text-shadow);
+    font-size: 2rem;
+    color: #333;
+    font-family: Calibri, "Trebuchet MS", sans-serif;
 }
 
 .spinning-logo {
@@ -106,54 +89,11 @@ a:hover {
     animation: spin 2s linear infinite;
 }
 
-/* Animations */
 @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-@keyframes shake {
-    0% { transform: translate(1px, 1px) rotate(0deg); }
-    10% { transform: translate(-1px, -2px) rotate(-1deg); }
-    20% { transform: translate(-3px, 0px) rotate(1deg); }
-    30% { transform: translate(3px, 2px) rotate(0deg); }
-    40% { transform: translate(1px, -1px) rotate(1deg); }
-    50% { transform: translate(-1px, 2px) rotate(-1deg); }
-    60% { transform: translate(-3px, 1px) rotate(0deg); }
-    70% { transform: translate(3px, 1px) rotate(-1deg); }
-    80% { transform: translate(-1px, -1px) rotate(1deg); }
-    90% { transform: translate(1px, 2px) rotate(0deg); }
-    100% { transform: translate(1px, -2px) rotate(-1deg); }
-}
-
-@keyframes zoom-in-fade {
-    0% {
-        scale: 0;
-        opacity: 0;
+    from {
+        transform: rotate(0deg);
     }
-    100% {
-        scale: 1;
-        opacity: 1;
-    }
-}
-
-/* Utility Classes */
-.hidden {
-    display: none !important;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .nav-buttons {
-        margin-left: 1em;
-        gap: 10px;
-    }
-    
-    .nav-buttons button {
-        padding: 0.5em;
-    }
-    
-    .star-text {
-        font-size: 3em;
+    to {
+        transform: rotate(360deg);
     }
 }
