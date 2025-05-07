@@ -76,7 +76,7 @@ a:hover {
 }
 
 .nav-buttons button {
-    transform: translate(15%);
+    transform: translate(5%);
     margin: 5px 10px;
     display: flex;
     align-items: center;
