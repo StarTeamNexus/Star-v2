@@ -74,7 +74,7 @@ body {
     margin: 5px 10px;
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 8px;
     border-radius: var(--btn-rounding);
     border: 1px solid var(--btn-accent);
     background: none;
