@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Library</title>
+    <link rel="stylesheet" href="CSS/Games.css">
+</head>
+<body>
+    <div class="search-container">
+        <input 
+            type="text" 
+            id="GameSearchBar" 
+            placeholder="Search games..." 
+            autocomplete="off"
+        >
+    </div>
+
+    <div class="Projects-Container"></div>
+
+    <div class="Projects-Frame hidden">
+        <div class="Projects-FrameBar">
+            <button id="close" title="Close">×</button>
+            <button id="fullscreen" title="Fullscreen">⛶</button>
+            <button id="link" title="Open in new tab">↗</button>
+        </div>
+        <iframe class="Projects-IFrame" src="" frameborder="0"></iframe>
+    </div>
+
+    <script src="JS/Game.js"></script>
+</body>
+</html>
