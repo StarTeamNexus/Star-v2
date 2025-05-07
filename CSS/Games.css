@@ -1,0 +1,161 @@
+:root {
+    --primary-bg: #1a1a1a;
+    --secondary-bg: #2d2d2d;
+    --accent-color: #3498db;
+    --text-color: #ffffff;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --card-hover: #3d3d3d;
+    --button-hover: #2980b9;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: var(--primary-bg);
+    color: var(--text-color);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Search Bar Styles */
+.search-container {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+#GameSearchBar {
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 25px;
+    background: var(--secondary-bg);
+    color: var(--text-color);
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px var(--shadow-color);
+}
+
+#GameSearchBar:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--accent-color);
+}
+
+/* Games Grid */
+.Projects-Container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.Projects-Project {
+    background: var(--secondary-bg);
+    border-radius: 10px;
+    padding: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+.Projects-Project:hover {
+    transform: translateY(-5px);
+    background: var(--card-hover);
+}
+
+.Projects-Project img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.Projects-Project h1 {
+    font-size: 1.2rem;
+    text-align: center;
+    margin: 0;
+}
+
+/* Frame Styles */
+.Projects-Frame {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--primary-bg);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+}
+
+.Projects-FrameBar {
+    background: var(--secondary-bg);
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.Projects-FrameBar button {
+    background: var(--accent-color);
+    border: none;
+    color: var(--text-color);
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.Projects-FrameBar button:hover {
+    background: var(--button-hover);
+}
+
+.Projects-IFrame {
+    flex: 1;
+    width: 100%;
+    border: none;
+}
+
+/* Utility Classes */
+.hidden {
+    display: none !important;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .Projects-Container {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 15px;
+        padding: 15px;
+    }
+
+    .Projects-Project img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .Projects-Project h1 {
+        font-size: 1rem;
+    }
+
+    #GameSearchBar {
+        padding: 10px 15px;
+    }
+}
