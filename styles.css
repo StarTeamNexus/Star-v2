@@ -55,7 +55,7 @@ body {
 
 .logo img {
     height: auto;
-    width: 100px;
+    width: 90px;
     padding: 0.5em;
     transition: 0.75s;
 }
@@ -123,8 +123,8 @@ body {
 }
 
 .spinning-logo {
-    height: 40px;
-    width: auto;
+    height: auto;
+    width: 80px;
     animation: spin 2s linear infinite;
 }
 
