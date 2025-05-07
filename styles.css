@@ -1,18 +1,4 @@
-/* Unneeded parts */
-a:hover {
-  cursor: pointer;
-}
-/* Main CSS */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    list-style-type: none;
-    text-decoration: none;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    font-family: "Poppins", sans-serif;
-}
+/* Root Variables */
 :root {
     --bg-accent2: #333;
     --text-color1: #fff;
@@ -24,6 +10,18 @@ a:hover {
     --text-shadow: rgba(0, 0, 0, 0.3);
 }
 
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style-type: none;
+    text-decoration: none;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    font-family: "Poppins", sans-serif;
+}
+
 body {
     font-family: Arial, sans-serif;
 }
@@ -32,15 +30,19 @@ body {
     display: none;
 }
 
+a:hover {
+    cursor: pointer;
+}
+
+/* Navigation Styles */
 .navbar {
     width: 100%;
     height: 60px;
     background: var(--bg-accent2);
     display: flex;
     border-radius: 0 0 25px 25px;
-    background-color: #333;
     padding: 1rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px 5px var(--btn-box-shadow);
 }
 
 .nav-container {
@@ -60,10 +62,12 @@ body {
     padding: 0.5em;
     transition: 0.75s;
 }
+
 .logo:hover img {
     animation: shake 5s;
 }
 
+/* Navigation Buttons */
 .nav-buttons {
     display: flex;
     gap: 1rem;
@@ -76,42 +80,30 @@ body {
     align-items: center;
     gap: 8px;
     border-radius: var(--btn-rounding);
-    border: 1px solid var(--btn-accent);
-    background: none;
     background-color: var(--btn-accent);
-    border: none;
+    border: 1px solid var(--btn-accent);
     color: var(--text-color1);
     padding: 0.75rem 1rem;
     cursor: pointer;
     font-size: 1rem;
     box-shadow: 0 0 10px 5px var(--btn-box-shadow);
     transition: all 0.75s ease;
-    transform: translate(15%);
-    position: absolute;
 }
+
 .nav-buttons button i {
-    font-size: 1.2em;  /* Slightly larger icons */
+    font-size: 1.2em;
     display: flex;
     align-items: center;
-    margin-top: 5px;
-    height: 36px;
-    padding: 0.5em;
-    padding-left: 1.25em;
 }
-.nav-buttons button i:hover {
-  animation: shake 5s;
 
-}
 .nav-buttons button:hover {
-    cursor: pointer;
-    background-color: #555;
-    border-radius: 4px;
+    background-color: var(--btn-accent2);
     border: 1px solid var(--nav-box-hover);
-    transform: scale(1.025);
+    transform: scale(1.05);
     transition: 0.75s;
-    scale: 1.05;
 }
 
+/* Content Styles */
 .content {
     height: calc(100vh - 72px);
     display: flex;
@@ -139,14 +131,12 @@ body {
     animation: spin 2s linear infinite;
 }
 
+/* Animations */
 @keyframes spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
 }
+
 @keyframes shake {
     0% { transform: translate(1px, 1px) rotate(0deg); }
     10% { transform: translate(-1px, -2px) rotate(-1deg); }
@@ -159,6 +149,19 @@ body {
     80% { transform: translate(-1px, -1px) rotate(1deg); }
     90% { transform: translate(1px, 2px) rotate(0deg); }
     100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
+@keyframes move-down {
+    0% {
+        margin-top: -2rem;
+        opacity: 0;
+    }
+    70% {
+        margin-top: 0;
+    }
+    100% {
+        opacity: 1;
+    }
 }
 
 @keyframes zoom-in-fade {
@@ -191,61 +194,4 @@ body {
     .star-text {
         font-size: 3em;
     }
-}
-@keyframes shake {
-  0% {
-    transform: translate(1px, 1px) rotate(0deg);
-  }
-  10% {
-    transform: translate(-1px, -2px) rotate(-1deg);
-  }
-  20% {
-    transform: translate(-3px, 0px) rotate(1deg);
-  }
-  30% {
-    transform: translate(3px, 2px) rotate(0deg);
-  }
-  40% {
-    transform: translate(1px, -1px) rotate(1deg);
-  }
-  50% {
-    transform: translate(-1px, 2px) rotate(-1deg);
-  }
-  60% {
-    transform: translate(-3px, 1px) rotate(0deg);
-  }
-  70% {
-    transform: translate(3px, 1px) rotate(-1deg);
-  }
-  80% {
-    transform: translate(-1px, -1px) rotate(1deg);
-  }
-  90% {
-    transform: translate(1px, 2px) rotate(0deg);
-  }
-  100% {
-    transform: translate(1px, -2px) rotate(-1deg);
-  }
-}
-@keyframes move-down {
-  0% {
-    margin-top: -2rem;
-    opacity: 0;
-  }
-  70% {
-    margin-top: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-@keyframes zoom-in-fade {
-  0% {
-    scale: 0;
-    opacity: 0;
-  }
-  100% {
-    scale: 1;
-    opacity: 1;
-  }
 }
