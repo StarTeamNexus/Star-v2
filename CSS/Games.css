@@ -132,7 +132,106 @@ body {
     width: 100%;
     border: none;
 }
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1001;
+}
 
+.modal-content {
+    background: var(--secondary-bg);
+    padding: 30px;
+    border-radius: 15px;
+    max-width: 800px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--text-color);
+}
+
+.form-group input[type="text"],
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--accent-color);
+    border-radius: 5px;
+    background: var(--primary-bg);
+    color: var(--text-color);
+    font-family: monospace;
+}
+
+.form-group textarea {
+    height: 150px;
+    resize: vertical;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.button-group button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.button-group button[type="submit"] {
+    background: var(--accent-color);
+    color: var(--text-color);
+}
+
+.button-group button[type="button"] {
+    background: var(--secondary-bg);
+    color: var(--text-color);
+    border: 1px solid var(--accent-color);
+}
+
+#iconPreview {
+    margin-top: 10px;
+    max-width: 100px;
+}
+
+#iconPreview img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+}
+
+#addGameBtn {
+    background: var(--accent-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 25px;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-left: 20px;
+}
+
+#addGameBtn:hover {
+    background: var(--button-hover);
+    transform: translateY(-2px);
+}
 /* Utility Classes */
 .hidden {
     display: none !important;
