@@ -14,8 +14,12 @@ let customGames = JSON.parse(localStorage.getItem("customGames")) || [];
 async function addGames() {
     try {
         // Add CDN games
-        const cdn = await (await fetch("./Hosting/CDN.json")).json();
-        const games = await (await fetch(cdn + "list.json")).json();
+        const cdnResponse = await fetch("./Hosting/CDN.json");
+        const cdnData = await cdnResponse.json();
+        const cdn = cdnData.cdn; // Updated to use the new format
+
+        const gamesResponse = await fetch(cdn + "list.json");
+        const games = await gamesResponse.json();
         
         // Combine CDN games with custom games
         const allGames = [...games, ...customGames];
@@ -34,7 +38,7 @@ async function addGames() {
                 : `${cdn}/Icons/${game.game.replace(/[.\s]/g, "")}.webp`;
 
             project.innerHTML = `
-                <img src="${imageSource}" loading="lazy" onerror="this.src='./Assests/Imgs/NoIcon.png'"/>
+                <img src="${imageSource}" loading="lazy" onerror="this.src='./Assets/Imgs/NoIcon.png'"/>
                 <h1>${game.game}</h1>`;
             
             document.querySelector(".Projects-Container").appendChild(project);
@@ -49,6 +53,8 @@ async function addGames() {
                         <!DOCTYPE html>
                         <html>
                             <head>
+                                <meta charset="UTF-8">
+                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
                                 <style>${game.css}</style>
                             </head>
                             <body>
@@ -67,6 +73,12 @@ async function addGames() {
         }
     } catch (error) {
         console.error("Error loading games:", error);
+        // Add user-friendly error message
+        document.querySelector(".Projects-Container").innerHTML = `
+            <div class="error-message">
+                Unable to load games. Please try again later.
+            </div>
+        `;
     }
 }
 
@@ -90,30 +102,35 @@ iconInput.addEventListener("change", (e) => {
 addGameForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     
-    const iconFile = iconInput.files[0];
-    const iconData = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onload = (e) => resolve(e.target.result);
-        reader.readAsDataURL(iconFile);
-    });
+    try {
+        const iconFile = iconInput.files[0];
+        const iconData = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.onload = (e) => resolve(e.target.result);
+            reader.readAsDataURL(iconFile);
+        });
 
-    const newGame = {
-        game: document.getElementById("gameName").value,
-        icon: iconData,
-        html: document.getElementById("gameHTML").value,
-        css: document.getElementById("gameCSS").value,
-        js: document.getElementById("gameJS").value,
-        isCustom: true
-    };
+        const newGame = {
+            game: document.getElementById("gameName").value,
+            icon: iconData,
+            html: document.getElementById("gameHTML").value,
+            css: document.getElementById("gameCSS").value,
+            js: document.getElementById("gameJS").value,
+            isCustom: true
+        };
 
-    customGames.push(newGame);
-    localStorage.setItem("customGames", JSON.stringify(customGames));
-    
-    modal.classList.add("hidden");
-    addGameForm.reset();
-    iconPreview.innerHTML = "";
-    
-    addGames(); // Refresh the game list
+        customGames.push(newGame);
+        localStorage.setItem("customGames", JSON.stringify(customGames));
+        
+        modal.classList.add("hidden");
+        addGameForm.reset();
+        iconPreview.innerHTML = "";
+        
+        addGames(); // Refresh the game list
+    } catch (error) {
+        console.error("Error adding game:", error);
+        alert("Failed to add game. Please try again.");
+    }
 });
 
 Frame.querySelector(".Projects-FrameBar").addEventListener("click", (event) => {
@@ -146,4 +163,5 @@ document.getElementById("GameSearchBar").addEventListener("input", () => {
     });
 });
 
+// Initialize
 addGames();
