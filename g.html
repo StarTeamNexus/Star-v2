@@ -22,10 +22,6 @@
 
     <main class="Projects-Container">
         <!-- Games will be loaded here -->
-        <div class="loading-indicator">
-            <div class="spinner"></div>
-            <p>Loading games...</p>
-        </div>
     </main>
 
     <div class="Projects-Frame hidden">
@@ -34,7 +30,7 @@
             <button id="fullscreen" title="Fullscreen mode" aria-label="Enter fullscreen">⛶</button>
             <button id="link" title="Open in new tab" aria-label="Open in new tab">↗</button>
         </div>
-        <iframe class="Projects-IFrame" src="" frameborder="0" allow="fullscreen"></iframe>
+        <iframe class="Projects-IFrame" src="" frameborder="0" allow="fullscreen; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" sandbox="allow-same-origin allow-scripts allow-popups allow-forms"></iframe>
     </div>
 
     <script src="js/config.js"></script>
