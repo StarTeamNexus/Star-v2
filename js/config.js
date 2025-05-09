@@ -1,8 +1,7 @@
 const CONFIG = {
-    cdnBase: 'https://raw.githubusercontent.com/StarTeamNexus/files/main/',
-    defaultIcon: '.icons/idk',
-    apiEndpoints: {
-        gameList: 'list.json',
-        icons: 'icons/'
-    }
+    cdnBase: 'https://starteamnexus.github.io/files/',
+    listFile: 'https://raw.githubusercontent.com/StarTeamNexus/files/main/list.json',
+    defaultIcon: './assets/images/default-icon.png',
+    owner: 'StarTeamNexus',
+    repo: 'files'
 };
