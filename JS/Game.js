@@ -1,167 +1,141 @@
-const Frame = document.querySelector(".Projects-Frame");
-const HAF = document.querySelectorAll(".hideAfterFullscreen");
-const IFrame = document.querySelector(".Projects-IFrame");
-const modal = document.getElementById("addGameModal");
-const addGameBtn = document.getElementById("addGameBtn");
-const closeModalBtn = document.getElementById("closeModal");
-const addGameForm = document.getElementById("addGameForm");
-const iconInput = document.getElementById("gameIcon");
-const iconPreview = document.getElementById("iconPreview");
-
-// Store custom games in localStorage
-let customGames = JSON.parse(localStorage.getItem("customGames")) || [];
-
-async function addGames() {
-    try {
-        // Add CDN games
-        const cdnResponse = await fetch("./Hosting/CDN.json");
-        const cdnData = await cdnResponse.json();
-        const cdn = cdnData.cdn; // Updated to use the new format
-
-        const gamesResponse = await fetch(cdn + "list.json");
-        const games = await gamesResponse.json();
+class GameLibrary {
+    constructor() {
+        this.frame = document.querySelector(".Projects-Frame");
+        this.iframe = document.querySelector(".Projects-IFrame");
+        this.container = document.querySelector(".Projects-Container");
+        this.searchBar = document.getElementById("GameSearchBar");
         
-        // Combine CDN games with custom games
-        const allGames = [...games, ...customGames];
-        allGames.sort((a, b) => a.game.localeCompare(b.game));
+        this.initializeEventListeners();
+    }
 
-        // Clear existing games
-        document.querySelector(".Projects-Container").innerHTML = "";
+    initializeEventListeners() {
+        // Frame control events
+        this.frame.querySelector(".Projects-FrameBar").addEventListener("click", (e) => {
+            this.handleFrameControls(e);
+        });
 
-        for (const game of allGames) {
-            const project = document.createElement("div");
-            project.className = "Projects-Project";
-            
-            // Handle both CDN and custom games
-            const imageSource = game.isCustom 
-                ? game.icon 
-                : `${cdn}/Icons/${game.game.replace(/[.\s]/g, "")}.webp`;
+        // Search functionality
+        this.searchBar.addEventListener("input", () => {
+            this.handleSearch();
+        });
 
-            project.innerHTML = `
-                <img src="${imageSource}" loading="lazy" onerror="this.src='./Assets/Imgs/NoIcon.png'"/>
-                <h1>${game.game}</h1>`;
-            
-            document.querySelector(".Projects-Container").appendChild(project);
+        // Error handling for iframe
+        this.iframe.addEventListener('error', () => {
+            this.showError('Failed to load game. Please try again.');
+        });
+    }
 
-            project.addEventListener("click", () => {
-                HAF.forEach(element => element.classList.add("hidden"));
-                Frame.classList.remove("hidden");
-                
-                if (game.isCustom) {
-                    // For custom games, create a blob URL
-                    const gameContent = `
-                        <!DOCTYPE html>
-                        <html>
-                            <head>
-                                <meta charset="UTF-8">
-                                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                <style>${game.css}</style>
-                            </head>
-                            <body>
-                                ${game.html}
-                                <script>${game.js}</script>
-                            </body>
-                        </html>
-                    `;
-                    const blob = new Blob([gameContent], { type: 'text/html' });
-                    IFrame.src = URL.createObjectURL(blob);
-                } else {
-                    // For CDN games
-                    IFrame.src = `${cdn}${game.gameroot}`;
-                }
-            });
+    handleFrameControls(event) {
+        const target = event.target;
+        
+        if (target.id === "close") {
+            this.closeGame();
+        } else if (target.id === "fullscreen") {
+            this.toggleFullscreen();
+        } else if (target.id === "link") {
+            window.open(this.iframe.src);
         }
-    } catch (error) {
-        console.error("Error loading games:", error);
-        // Add user-friendly error message
-        document.querySelector(".Projects-Container").innerHTML = `
-            <div class="error-message">
-                Unable to load games. Please try again later.
-            </div>
+    }
+
+    closeGame() {
+        this.frame.classList.add("hidden");
+        this.iframe.src = "";
+    }
+
+    async toggleFullscreen() {
+        try {
+            if (document.fullscreenElement) {
+                await document.exitFullscreen();
+            } else {
+                await this.iframe.requestFullscreen();
+            }
+        } catch (error) {
+            console.error('Fullscreen error:', error);
+        }
+    }
+
+    handleSearch() {
+        const searchTerm = this.searchBar.value.trim().toLowerCase();
+        const games = this.container.querySelectorAll(".Projects-Project");
+
+        games.forEach(game => {
+            const gameName = game.querySelector("h1").textContent.toLowerCase();
+            game.classList.toggle("hidden", !gameName.includes(searchTerm));
+        });
+    }
+
+    createGameElement(game, cdnUrl) {
+        const project = document.createElement("div");
+        project.className = "Projects-Project";
+        
+        const imageUrl = `${cdnUrl}${CONFIG.apiEndpoints.icons}${game.game.replace(/[.\s]/g, "")}.webp`;
+        
+        project.innerHTML = `
+            <img src="${imageUrl}" 
+                 loading="lazy" 
+                 alt="${game.game} icon"
+                 onerror="this.src='${CONFIG.defaultIcon}'"/>
+            <h1>${game.game}</h1>
         `;
+
+        project.addEventListener("click", () => {
+            this.loadGame(game, cdnUrl);
+        });
+
+        return project;
+    }
+
+    loadGame(game, cdnUrl) {
+        this.frame.classList.remove("hidden");
+        this.iframe.src = `${cdnUrl}${game.gameroot}`;
+    }
+
+    showError(message) {
+        const error = document.createElement('div');
+        error.className = 'error-message';
+        error.textContent = message;
+        this.container.prepend(error);
+        
+        setTimeout(() => error.remove(), 5000);
+    }
+
+    async loadGames() {
+        try {
+            const cdnResponse = await fetch('config/cdn.json');
+            if (!cdnResponse.ok) throw new Error('CDN configuration not found');
+            
+            const cdnData = await cdnResponse.json();
+            const cdnUrl = cdnData.cdn || CONFIG.cdnBase;
+
+            const gamesResponse = await fetch(`${cdnUrl}${CONFIG.apiEndpoints.gameList}`);
+            if (!gamesResponse.ok) throw new Error('Failed to load games list');
+            
+            const games = await gamesResponse.json();
+            
+            // Clear loading indicator
+            this.container.innerHTML = '';
+
+            // Sort games alphabetically
+            games.sort((a, b) => a.game.localeCompare(b.game));
+
+            // Create and append game elements
+            const fragment = document.createDocumentFragment();
+            games.forEach(game => {
+                const gameElement = this.createGameElement(game, cdnUrl);
+                fragment.appendChild(gameElement);
+            });
+
+            this.container.appendChild(fragment);
+
+        } catch (error) {
+            console.error('Error loading games:', error);
+            this.showError('Unable to load games. Please try again later.');
+        }
     }
 }
 
-// Modal handling
-addGameBtn.addEventListener("click", () => modal.classList.remove("hidden"));
-closeModalBtn.addEventListener("click", () => modal.classList.add("hidden"));
-
-// Icon preview
-iconInput.addEventListener("change", (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            iconPreview.innerHTML = `<img src="${e.target.result}" alt="Icon preview">`;
-        };
-        reader.readAsDataURL(file);
-    }
+// Initialize the game library when the DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    const gameLibrary = new GameLibrary();
+    gameLibrary.loadGames();
 });
-
-// Form submission
-addGameForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    
-    try {
-        const iconFile = iconInput.files[0];
-        const iconData = await new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.onload = (e) => resolve(e.target.result);
-            reader.readAsDataURL(iconFile);
-        });
-
-        const newGame = {
-            game: document.getElementById("gameName").value,
-            icon: iconData,
-            html: document.getElementById("gameHTML").value,
-            css: document.getElementById("gameCSS").value,
-            js: document.getElementById("gameJS").value,
-            isCustom: true
-        };
-
-        customGames.push(newGame);
-        localStorage.setItem("customGames", JSON.stringify(customGames));
-        
-        modal.classList.add("hidden");
-        addGameForm.reset();
-        iconPreview.innerHTML = "";
-        
-        addGames(); // Refresh the game list
-    } catch (error) {
-        console.error("Error adding game:", error);
-        alert("Failed to add game. Please try again.");
-    }
-});
-
-Frame.querySelector(".Projects-FrameBar").addEventListener("click", (event) => {
-    if (event.target.id === "close") {
-        HAF.forEach(element => element.classList.remove("hidden"));
-        Frame.classList.add("hidden");
-        if (IFrame.src.startsWith("blob:")) {
-            URL.revokeObjectURL(IFrame.src);
-        }
-        IFrame.src = "";
-    } else if (event.target.id === "fullscreen") {
-        const requestFullscreen = IFrame.requestFullscreen ||
-            IFrame.webkitRequestFullscreen ||
-            IFrame.msRequestFullscreen;
-        requestFullscreen.call(IFrame);
-    } else if (event.target.id === "link") {
-        window.open(IFrame.src);
-    }
-});
-
-// Search functionality
-document.getElementById("GameSearchBar").addEventListener("input", () => {
-    const searchedup = document.getElementById("GameSearchBar").value.trim().toLowerCase();
-    const gameholders = document.querySelector(".Projects-Container");
-    const games = gameholders.querySelectorAll(".Projects-Project");
-
-    games.forEach(game => {
-        const gameName = game.querySelector("h1").innerText.trim().toLowerCase();
-        game.classList.toggle("hidden", !gameName.includes(searchedup));
-    });
-});
-
-// Initialize
-addGames();
