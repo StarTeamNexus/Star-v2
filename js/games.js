@@ -9,7 +9,7 @@ class GameLibrary {
     }
 
     initializeEventListeners() {
-        // Frame control events
+        // Frame controls
         this.frame.querySelector(".Projects-FrameBar").addEventListener("click", (e) => {
             this.handleFrameControls(e);
         });
@@ -17,11 +17,6 @@ class GameLibrary {
         // Search functionality
         this.searchBar.addEventListener("input", () => {
             this.handleSearch();
-        });
-
-        // Error handling for iframe
-        this.iframe.addEventListener('error', () => {
-            this.showError('Failed to load game. Please try again.');
         });
     }
 
@@ -33,7 +28,8 @@ class GameLibrary {
         } else if (target.id === "fullscreen") {
             this.toggleFullscreen();
         } else if (target.id === "link") {
-            window.open(this.iframe.src);
+            const currentGame = this.iframe.src;
+            if (currentGame) window.open(currentGame);
         }
     }
 
@@ -51,6 +47,7 @@ class GameLibrary {
             }
         } catch (error) {
             console.error('Fullscreen error:', error);
+            this.showError('Unable to enter fullscreen mode');
         }
     }
 
@@ -64,14 +61,15 @@ class GameLibrary {
         });
     }
 
-    createGameElement(game, cdnUrl) {
+    createGameElement(game) {
         const project = document.createElement("div");
         project.className = "Projects-Project";
         
-        const imageUrl = `${cdnUrl}${CONFIG.apiEndpoints.icons}${game.game.replace(/[.\s]/g, "")}.webp`;
+        // Create icon URL - assumes icons are in the same folder structure as games
+        const iconPath = `${CONFIG.cdnBase}Icons/${game.game.replace(/[.\s]/g, "")}.webp`;
         
         project.innerHTML = `
-            <img src="${imageUrl}" 
+            <img src="${iconPath}" 
                  loading="lazy" 
                  alt="${game.game} icon"
                  onerror="this.src='${CONFIG.defaultIcon}'"/>
@@ -79,15 +77,18 @@ class GameLibrary {
         `;
 
         project.addEventListener("click", () => {
-            this.loadGame(game, cdnUrl);
+            this.loadGame(game);
         });
 
         return project;
     }
 
-    loadGame(game, cdnUrl) {
+    loadGame(game) {
+        // Construct the full GitHub Pages URL
+        const gameUrl = `${CONFIG.cdnBase}${game.gameroot}`;
+        
         this.frame.classList.remove("hidden");
-        this.iframe.src = `${cdnUrl}${game.gameroot}`;
+        this.iframe.src = gameUrl;
     }
 
     showError(message) {
@@ -99,20 +100,26 @@ class GameLibrary {
         setTimeout(() => error.remove(), 5000);
     }
 
+    showLoading() {
+        this.container.innerHTML = `
+            <div class="loading-indicator">
+                <div class="spinner"></div>
+                <p>Loading games...</p>
+            </div>
+        `;
+    }
+
     async loadGames() {
         try {
-            const cdnResponse = await fetch('config/cdn.json');
-            if (!cdnResponse.ok) throw new Error('CDN configuration not found');
-            
-            const cdnData = await cdnResponse.json();
-            const cdnUrl = cdnData.cdn || CONFIG.cdnBase;
+            this.showLoading();
 
-            const gamesResponse = await fetch(`${cdnUrl}${CONFIG.apiEndpoints.gameList}`);
-            if (!gamesResponse.ok) throw new Error('Failed to load games list');
+            // Fetch the games list from GitHub raw content
+            const response = await fetch(CONFIG.listFile);
+            if (!response.ok) throw new Error('Failed to load games list');
             
-            const games = await gamesResponse.json();
+            const games = await response.json();
             
-            // Clear loading indicator
+            // Clear loading state
             this.container.innerHTML = '';
 
             // Sort games alphabetically
@@ -121,7 +128,7 @@ class GameLibrary {
             // Create and append game elements
             const fragment = document.createDocumentFragment();
             games.forEach(game => {
-                const gameElement = this.createGameElement(game, cdnUrl);
+                const gameElement = this.createGameElement(game);
                 fragment.appendChild(gameElement);
             });
 
@@ -134,7 +141,7 @@ class GameLibrary {
     }
 }
 
-// Initialize the game library when the DOM is ready
+// Initialize when DOM is ready
 document.addEventListener('DOMContentLoaded', () => {
     const gameLibrary = new GameLibrary();
     gameLibrary.loadGames();
