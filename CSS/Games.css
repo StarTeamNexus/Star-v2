@@ -1,99 +1,63 @@
-/* Variables */
 :root {
+    /* Color Schema */
     --primary-bg: #1a1a1a;
     --secondary-bg: #2d2d2d;
     --accent-color: #3498db;
     --text-color: #ffffff;
+    --error-color: #e74c3c;
+    --success-color: #2ecc71;
+    
+    /* Effects */
     --shadow-color: rgba(0, 0, 0, 0.2);
     --card-hover: #3d3d3d;
     --button-hover: #2980b9;
-    --error-color: #e74c3c;
-    --success-color: #2ecc71;
-    --warning-color: #f1c40f;
-    --modal-overlay: rgba(0, 0, 0, 0.8);
-    --scrollbar-width: 8px;
+    
+    /* Transitions */
+    --transition-speed: 0.3s;
+    --transition-function: ease;
 }
 
-/* Reset and Base Styles */
-* {
+/* Reset & Base Styles */
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
     background: var(--primary-bg);
     color: var(--text-color);
-    min-height: 100vh;
-    padding: 20px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
     line-height: 1.6;
+    min-height: 100vh;
 }
 
-/* Scrollbar Styles */
-::-webkit-scrollbar {
-    width: var(--scrollbar-width);
+/* Header & Search */
+header {
+    padding: 20px;
+    background: var(--secondary-bg);
+    box-shadow: 0 2px 10px var(--shadow-color);
 }
 
-::-webkit-scrollbar-track {
-    background: var(--primary-bg);
-}
-
-::-webkit-scrollbar-thumb {
-    background: var(--accent-color);
-    border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: var(--button-hover);
-}
-
-/* Search Container */
 .search-container {
     max-width: 800px;
-    margin: 20px auto;
-    padding: 0 20px;
-    display: flex;
-    gap: 20px;
-    align-items: center;
+    margin: 0 auto;
 }
 
 #GameSearchBar {
-    flex: 1;
+    width: 100%;
     padding: 12px 20px;
     border: none;
     border-radius: 25px;
-    background: var(--secondary-bg);
+    background: var(--primary-bg);
     color: var(--text-color);
     font-size: 16px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 10px var(--shadow-color);
+    transition: all var(--transition-speed) var(--transition-function);
 }
 
 #GameSearchBar:focus {
     outline: none;
     box-shadow: 0 0 0 2px var(--accent-color);
-    transform: translateY(-1px);
-}
-
-#addGameBtn {
-    background: var(--accent-color);
-    color: var(--text-color);
-    border: none;
-    border-radius: 25px;
-    padding: 12px 24px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-#addGameBtn:hover {
-    background: var(--button-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--shadow-color);
 }
 
 /* Games Grid */
@@ -111,12 +75,11 @@ body {
     border-radius: 12px;
     padding: 20px;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed) var(--transition-function);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    box-shadow: 0 4px 6px var(--shadow-color);
     position: relative;
     overflow: hidden;
 }
@@ -126,11 +89,11 @@ body {
     position: absolute;
     top: 0;
     left: 0;
-    right: 0;
+    width: 100%;
     height: 4px;
     background: var(--accent-color);
     transform: scaleX(0);
-    transition: transform 0.3s ease;
+    transition: transform var(--transition-speed) var(--transition-function);
 }
 
 .Projects-Project:hover::before {
@@ -148,7 +111,7 @@ body {
     height: 100px;
     border-radius: 12px;
     object-fit: cover;
-    transition: transform 0.3s ease;
+    transition: transform var(--transition-speed) var(--transition-function);
 }
 
 .Projects-Project:hover img {
@@ -162,7 +125,7 @@ body {
     font-weight: 600;
 }
 
-/* Frame Styles */
+/* Game Frame */
 .Projects-Frame {
     position: fixed;
     top: 0;
@@ -181,7 +144,6 @@ body {
     display: flex;
     gap: 12px;
     justify-content: flex-end;
-    box-shadow: 0 2px 5px var(--shadow-color);
 }
 
 .Projects-FrameBar button {
@@ -193,7 +155,7 @@ body {
     border-radius: 6px;
     cursor: pointer;
     font-size: 18px;
-    transition: all 0.3s ease;
+    transition: all var(--transition-speed) var(--transition-function);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -208,184 +170,51 @@ body {
     flex: 1;
     width: 100%;
     border: none;
-    background: var(--primary-bg);
 }
 
-/* Modal Styles */
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: var(--modal-overlay);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1001;
-    backdrop-filter: blur(5px);
-    padding: 20px;
-}
-
-.modal-content {
-    background: var(--secondary-bg);
-    padding: 30px;
-    border-radius: 15px;
-    max-width: 800px;
-    width: 90%;
-    max-height: 90vh;
-    overflow-y: auto;
-    box-shadow: 0 10px 25px var(--shadow-color);
-    animation: modalSlideIn 0.3s ease;
-}
-
-@keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.modal-content h2 {
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 2px solid var(--accent-color);
-}
-
-/* Form Styles */
-.form-group {
-    margin-bottom: 20px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 8px;
-    color: var(--text-color);
-    font-weight: 500;
-}
-
-.form-group input[type="text"],
-.form-group textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid var(--accent-color);
-    border-radius: 8px;
-    background: var(--primary-bg);
-    color: var(--text-color);
-    font-family: monospace;
-    font-size: 14px;
-    transition: all 0.3s ease;
-}
-
-.form-group input[type="file"] {
-    width: 100%;
-    padding: 10px;
-    background: var(--primary-bg);
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.form-group input[type="text"]:focus,
-.form-group textarea:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px var(--accent-color);
-}
-
-.form-group textarea {
-    height: 150px;
-    resize: vertical;
-    line-height: 1.4;
-}
-
-/* Button Group */
-.button-group {
-    display: flex;
-    gap: 12px;
-    justify-content: flex-end;
-    margin-top: 30px;
-}
-
-.button-group button {
-    padding: 12px 24px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    font-weight: 500;
-}
-
-.button-group button[type="submit"] {
-    background: var(--accent-color);
-    color: var(--text-color);
-}
-
-.button-group button[type="button"] {
-    background: var(--secondary-bg);
-    color: var(--text-color);
-    border: 1px solid var(--accent-color);
-}
-
-.button-group button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px var(--shadow-color);
-}
-
-/* Icon Preview */
-#iconPreview {
-    margin-top: 10px;
-    max-width: 100px;
-    background: var(--primary-bg);
-    padding: 10px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-}
-
-#iconPreview img {
-    width: 100%;
-    height: auto;
-    border-radius: 8px;
-    display: block;
-}
-
-/* Error Message */
-.error-message {
+/* Loading & Error States */
+.loading-indicator {
     grid-column: 1 / -1;
-    text-align: center;
-    padding: 20px;
-    background: var(--secondary-bg);
-    border-radius: 10px;
-    color: var(--error-color);
-    border: 1px solid var(--error-color);
-    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    padding: 40px;
 }
 
-/* Loading State */
-.loading {
-    opacity: 0.7;
-    pointer-events: none;
-    position: relative;
-}
-
-.loading::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 30px;
-    height: 30px;
-    border: 3px solid var(--accent-color);
-    border-top-color: transparent;
+.spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid var(--secondary-bg);
+    border-top-color: var(--accent-color);
     border-radius: 50%;
     animation: spin 1s linear infinite;
 }
 
+.error-message {
+    grid-column: 1 / -1;
+    padding: 20px;
+    background: var(--secondary-bg);
+    border-radius: 10px;
+    color: var(--error-color);
+    text-align: center;
+    margin: 20px 0;
+    animation: slideIn 0.3s ease;
+}
+
+/* Animations */
 @keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
     to {
-        transform: rotate(360deg);
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
@@ -415,29 +244,8 @@ body {
         font-size: 1rem;
     }
 
-    .search-container {
-        flex-direction: column;
-    }
-
     #GameSearchBar {
         padding: 10px 15px;
-    }
-
-    #addGameBtn {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .modal-content {
-        padding: 20px;
-    }
-
-    .button-group {
-        flex-direction: column;
-    }
-
-    .button-group button {
-        width: 100%;
     }
 }
 
@@ -449,12 +257,10 @@ body {
 
     .Projects-Project {
         break-inside: avoid;
-        page-break-inside: avoid;
     }
 
     .search-container,
-    .Projects-Frame,
-    .modal {
+    .Projects-Frame {
         display: none !important;
     }
 }
