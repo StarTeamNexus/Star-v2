@@ -3,65 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Library</title>
-    <link rel="stylesheet" href="CSS/Games.css">
+    <meta name="description" content="Star Games - School Gaming Platform">
+    <title>Star Games</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="search-container">
-        <input type="text" id="GameSearchBar" placeholder="Search games..." autocomplete="off">
-        <button id="addGameBtn">+ Add Game</button>
-    </div>
+    <header>
+        <div class="search-container">
+            <input 
+                type="text" 
+                id="GameSearchBar" 
+                placeholder="Search games..." 
+                autocomplete="off"
+                aria-label="Search games"
+            >
+        </div>
+    </header>
 
-    <div class="Projects-Container"></div>
+    <main class="Projects-Container">
+        <!-- Games will be loaded here -->
+        <div class="loading-indicator">
+            <div class="spinner"></div>
+            <p>Loading games...</p>
+        </div>
+    </main>
 
     <div class="Projects-Frame hidden">
         <div class="Projects-FrameBar">
-            <button id="close" title="Close">×</button>
-            <button id="fullscreen" title="Fullscreen">⛶</button>
-            <button id="link" title="Open in new tab">↗</button>
+            <button id="close" title="Close game" aria-label="Close game">×</button>
+            <button id="fullscreen" title="Fullscreen mode" aria-label="Enter fullscreen">⛶</button>
+            <button id="link" title="Open in new tab" aria-label="Open in new tab">↗</button>
         </div>
         <iframe class="Projects-IFrame" src="" frameborder="0" allow="fullscreen"></iframe>
     </div>
 
-    <!-- Add Game Modal -->
-    <div id="addGameModal" class="modal hidden">
-        <div class="modal-content">
-            <h2>Add Custom Game</h2>
-            <form id="addGameForm">
-                <div class="form-group">
-                    <label for="gameName">Game Name:</label>
-                    <input type="text" id="gameName" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="gameIcon">Game Icon:</label>
-                    <input type="file" id="gameIcon" accept="image/*" required>
-                    <div id="iconPreview"></div>
-                </div>
-
-                <div class="form-group">
-                    <label for="gameHTML">HTML:</label>
-                    <textarea id="gameHTML" placeholder="<html>...</html>" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="gameCSS">CSS:</label>
-                    <textarea id="gameCSS" placeholder="/* CSS styles */"></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="gameJS">JavaScript:</label>
-                    <textarea id="gameJS" placeholder="// JavaScript code"></textarea>
-                </div>
-
-                <div class="button-group">
-                    <button type="submit">Add Game</button>
-                    <button type="button" id="closeModal">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script src="JS/Game.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/games.js"></script>
 </body>
 </html>
